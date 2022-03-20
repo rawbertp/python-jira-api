@@ -11,7 +11,7 @@ class Jira(atlassian.Jira):
     Wrapper for the official https://github.com/atlassian-api/atlassian-python-api with multi-threaded search
     """
 
-    def __init__(self, url, token=None, username=None, password=None, workers=5, **kwargs):
+    def __init__(self, url, token=None, username=None, password=None, workers=1, **kwargs):
         self.workers = workers
         super().__init__(url=url, token=token, username=username, password=password, **kwargs)
 
@@ -29,7 +29,7 @@ class Jira(atlassian.Jira):
     def issue_get_worklog(self, issue_key):
         return super().issue_get_worklog(issue_id_or_key=issue_key)['worklogs']
 
-    def search(self, jql, fields='*all', expand='', bucket_size=50):
+    def search(self, jql, fields='*all', expand='', bucket_size=300):
         """
         Perform a multi-threaded search based on `workers` setting.
         :param jql: JQL query to execute
