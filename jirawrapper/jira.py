@@ -15,7 +15,7 @@ class Jira(atlassian.Jira):
         self.workers = workers
         super().__init__(url=url, token=token, username=username, password=password, **kwargs)
 
-    def __get_count(self, jql):
+    def get_count(self, jql):
         res = self.jql(jql, limit=0)
         if 'total' not in res or res['total'] == 0:
             logger.warning('No issues found for JQL: [%s]' % jql)
@@ -44,7 +44,7 @@ class Jira(atlassian.Jira):
         issues = []
 
         # get the number of issues
-        total = self.__get_count(jql)
+        total = self.get_count(jql)
 
         def execute_jql(jql, max_results, start_at, expand, fields):
             def execute():
